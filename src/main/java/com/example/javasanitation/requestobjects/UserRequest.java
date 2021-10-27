@@ -3,6 +3,8 @@ package com.example.javasanitation.requestobjects;
 
 import lombok.Value;
 
+import java.util.UUID;
+
 @Value
 public class UserRequest {
     String username;
@@ -11,5 +13,6 @@ public class UserRequest {
     String firstname;
     String lastname;
     String phone;
+    UUID id;
 
 }

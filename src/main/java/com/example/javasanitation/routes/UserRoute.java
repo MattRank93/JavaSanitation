@@ -26,6 +26,11 @@ public class UserRoute {
         return userController.getAllUsers();
     }
 
+    @GetMapping("/getOneUser")
+    public ResponseEntity<?> getOneUser(@RequestBody UserRequest userRequest){
+        return userController.getOneUser(userRequest);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<?> registeruser(@RequestBody UserRequest userRequest) {
          return userController.register(userRequest);
