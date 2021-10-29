@@ -1,5 +1,7 @@
 package com.example.javasanitation.models;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Persistent;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -10,7 +12,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.UUID;
 
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "SpringUser")
 public class User {
 
@@ -47,7 +51,8 @@ public class User {
     private String phone;
 
 
-    public User(String email, String username, String password, String firstname, String lastname, String phone, String role) { ;
+    public User(String username, String email, String password, String firstname, String lastname, String phone, String role) {
+        this.id = UUID.randomUUID();
         this.username = username;
         this.email = email;
         this.password = password;

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
-@Repository
+//@Repository
 public interface UserRepository extends MongoRepository<User, String> {
 
 
@@ -16,6 +16,10 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     @Query("{id:'?0'}")
     User findOneById(UUID id);
+
+
+    @Query("{username:'?0'}")
+    User findOneByName(String username);
 
     @Query(value="{category:'?0'}", fields="{'name' : 1, 'quantity' : 1}")
     List<User> findAll(String category);

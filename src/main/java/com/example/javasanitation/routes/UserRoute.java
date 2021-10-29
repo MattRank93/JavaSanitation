@@ -1,6 +1,7 @@
 package com.example.javasanitation.routes;
 
 import com.example.javasanitation.controller.UserController;
+import com.example.javasanitation.models.User;
 import com.example.javasanitation.requestobjects.UserRequest;
 import com.example.javasanitation.responseobjects.UserResponse;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +27,26 @@ public class UserRoute {
         return userController.getAllUsers();
     }
 
-    @GetMapping("/getOneUser")
-    public ResponseEntity<?> getOneUser(@RequestBody UserRequest userRequest){
-        return userController.getOneUser(userRequest);
+    @GetMapping("/byid")
+    public ResponseEntity<?> getOneUserById(@RequestBody UserRequest userRequest){
+        try{
+            User oneUser = userController.getOneUserById(userRequest);
+            System.out.println(oneUser);
+            return ResponseEntity.ok(oneUser);
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body("Something donked up");
+        }
+    }
+
+    @GetMapping("/byname")
+    public ResponseEntity<?> getOneUserByName(@RequestBody UserRequest userRequest){
+        try{
+            User oneUser = userController.getOneUserByName(userRequest);
+            System.out.println(oneUser);
+            return ResponseEntity.ok(oneUser);
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body("Something donked up");
+        }
     }
 
     @PostMapping("/register")
