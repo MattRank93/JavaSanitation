@@ -1,5 +1,5 @@
 package com.example.javasanitation.controller;
-
+import com.example.javasanitation.middleware.RanksSanitizers;
 import com.example.javasanitation.models.User;
 import com.example.javasanitation.models.UserRepository;
 import com.example.javasanitation.requestobjects.UserRequest;
@@ -16,20 +16,21 @@ import java.util.UUID;
 public class UserController {
 
     private final UserRepository userRepo;
+    private final RanksSanitizers rankSani;
 //    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @Autowired
-    public UserController(UserRepository userRepo) {
+    public UserController(UserRepository userRepo, RanksSanitizers rankSani) {
         this.userRepo = userRepo;
-//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+
+        this.rankSani = rankSani;
     }
 
 
 
 
     public ResponseEntity<?> getAllUsers(){
-
         try{
             List<User> users = userRepo.findAll();
              return ResponseEntity.ok(users);
@@ -45,13 +46,23 @@ public class UserController {
         return user;
     }
 
-    public User getOneUserByName(@PathVariable("username") UserRequest userRequest){
 
+    public User getOneUserByName(@PathVariable("username") UserRequest userRequest){
             String username = userRequest.getUsername();
             User user = userRepo.findOneByName(username);
             System.out.println(user + " : " + username);
             return user;
     }
+
+
+    public void testSanitation(@PathVariable("username") UserRequest userRequest){
+        String username = userRequest.getUsername();
+        String sanitizedName = rankSani.MongoInput(username);
+        System.out.println("the unsanitized string: " + username);
+        System.out.println("the sanitized string: " + sanitizedName);
+
+    }
+
 
 
     public ResponseEntity<User> register(UserRequest userRequest){

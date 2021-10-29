@@ -21,6 +21,8 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query("{username:'?0'}")
     User findOneByName(String username);
 
+
+
     @Query(value="{category:'?0'}", fields="{'name' : 1, 'quantity' : 1}")
     List<User> findAll(String category);
 
