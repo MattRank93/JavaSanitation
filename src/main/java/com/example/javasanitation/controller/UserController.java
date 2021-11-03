@@ -3,6 +3,7 @@ import com.example.javasanitation.middleware.RanksSanitizers;
 import com.example.javasanitation.models.User;
 import com.example.javasanitation.models.UserRepository;
 import com.example.javasanitation.requestobjects.UserRequest;
+import com.example.javasanitation.responseobjects.SanitizerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,6 @@ public class UserController {
     @Autowired
     public UserController(UserRepository userRepo, RanksSanitizers rankSani) {
         this.userRepo = userRepo;
-
         this.rankSani = rankSani;
     }
 
@@ -55,12 +55,19 @@ public class UserController {
     }
 
 
-    public void testSanitation(@PathVariable("username") UserRequest userRequest){
+    public SanitizerResponse testSanitation(@PathVariable("username") UserRequest userRequest){
+        boolean badPass = false;
+
         String username = userRequest.getUsername();
         String sanitizedName = rankSani.MongoInput(username);
         System.out.println("the unsanitized string: " + username);
         System.out.println("the sanitized string: " + sanitizedName);
 
+        if(!(username.equals(sanitizedName))){
+            badPass = true;
+        }
+
+        return new SanitizerResponse(sanitizedName,badPass);
     }
 
 

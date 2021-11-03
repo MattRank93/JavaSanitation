@@ -8,12 +8,21 @@ import org.springframework.stereotype.Component;
 public class RanksSanitizers {
 
 
-//    [$gt]|[$eq]|[$lt]|[$lte]|
+    /**
+     * This method will strip away characters and character strings that are known to be used
+     * for Nosql injection against MongoDb. The method is written so that it will not remove characters from
+     * standard user input.
+     * @param unsanitized
+     * @return
+     */
     public String MongoInput(String unsanitized){
-        Pattern pattern = Pattern.compile("(gte)|(gt)|(eq)|(lt)|(lte)|[$]", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile(
+                "(gte)|(gt)|(eq)|(lt)|(lte)|[$]|" +
+                        "(sleep)|[()]|[;]|[:]|[ ]|(ne)|" +
+                        "(where:)|('1 == 1')|[{}]|(password)"
+                , Pattern.CASE_INSENSITIVE);
         return pattern.matcher(unsanitized).replaceAll("");
     }
-
 
 
 }

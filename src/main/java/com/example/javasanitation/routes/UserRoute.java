@@ -3,7 +3,6 @@ package com.example.javasanitation.routes;
 import com.example.javasanitation.controller.UserController;
 import com.example.javasanitation.models.User;
 import com.example.javasanitation.requestobjects.UserRequest;
-import com.example.javasanitation.responseobjects.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,9 +38,9 @@ public class UserRoute {
     }
 
     @GetMapping("/byname")
-    public ResponseEntity<?> getOneUserByName(@RequestBody UserRequest userRequest){
+    public ResponseEntity<?> getOneUserByName(@RequestBody String username){
         try{
-            User oneUser = userController.getOneUserByName(userRequest);
+            User oneUser = userController.getOneUserByName(username);
             System.out.println(oneUser);
             return ResponseEntity.ok(oneUser);
         } catch(Exception e){
@@ -49,11 +48,11 @@ public class UserRoute {
         }
     }
 
-    @GetMapping("/testSani")
-    public String testSanitation(@RequestBody UserRequest userRequest){
+    @GetMapping("/testsani")
+    public Object testSanitation(@RequestBody UserRequest userRequest){
+
         try{
-            userController.testSanitation(userRequest);
-            return "Success";
+            return userController.testSanitation(userRequest);
         } catch(Exception e){
             return "Failed";
         }
