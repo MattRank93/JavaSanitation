@@ -29,7 +29,7 @@ public class RanksSanitizers {
     /**
      * Uses the same logic as the previous method but returns a boolean value if a simple check is needed
      * @param unsanitized the original input string
-     * @return returns the string after bad characters/phrases removed.
+     * @return true if good and false if bad input
      */
     public boolean MongoInputCheck(String unsanitized){
         Pattern pattern = Pattern.compile(
@@ -38,7 +38,7 @@ public class RanksSanitizers {
                         "(where:)|('1 == 1')|[{}]|(password)"
                 , Pattern.CASE_INSENSITIVE);
         String sanitized = pattern.matcher(unsanitized).replaceAll("");
-        return (!(unsanitized.equals(sanitized)));
+        return (unsanitized.equals(sanitized));
     }
 
 }
