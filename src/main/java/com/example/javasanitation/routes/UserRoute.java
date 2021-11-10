@@ -38,9 +38,9 @@ public class UserRoute {
     }
 
     @GetMapping("/byname")
-    public ResponseEntity<?> getOneUserByName(@RequestBody String username){
+    public ResponseEntity<?> getOneUserByName(@RequestBody UserRequest userRequest){
         try{
-            User oneUser = userController.getOneUserByName(username);
+            User oneUser = userController.getOneUserByName(userRequest);
             System.out.println(oneUser);
             return ResponseEntity.ok(oneUser);
         } catch(Exception e){
@@ -50,7 +50,6 @@ public class UserRoute {
 
     @GetMapping("/testsani")
     public Object testSanitation(@RequestBody UserRequest userRequest){
-
         try{
             return userController.testSanitation(userRequest);
         } catch(Exception e){
