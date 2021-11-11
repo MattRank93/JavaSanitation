@@ -37,6 +37,8 @@ dependencies {
     testImplementation 'org.springframework.integration:spring-integration-test'
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.jsoup:jsoup:1.10.3'
+    implementation 'com.google.firebase:firebase-admin:8.1.0'
+
 }
 
 test {

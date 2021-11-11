@@ -1,5 +1,6 @@
 package com.example.javasanitation.routes;
 
+import com.example.javasanitation.config.FirebaseService;
 import com.example.javasanitation.controller.UserController;
 import com.example.javasanitation.models.User;
 import com.example.javasanitation.requestobjects.UserRequest;
@@ -14,10 +15,11 @@ public class UserRoute {
 
     private final UserController userController;
 //    private final UserResponse userResponse;
+    private final FirebaseService firebaseService;
 
-    public UserRoute(UserController userController) {
+    public UserRoute(UserController userController, FirebaseService firebaseService) {
         this.userController = userController;
-
+        this.firebaseService = firebaseService;
     }
 
 
@@ -60,6 +62,11 @@ public class UserRoute {
     @PostMapping("/register")
     public ResponseEntity<?> registeruser(@RequestBody UserRequest userRequest) {
          return userController.register(userRequest);
+    }
+
+    @PostMapping("/registerinfirebase")
+    public ResponseEntity<?> registeruserinfirebase(@RequestBody UserRequest userRequest) {
+        return firebaseService.saveUserDetails(userRequest);
     }
 
 
