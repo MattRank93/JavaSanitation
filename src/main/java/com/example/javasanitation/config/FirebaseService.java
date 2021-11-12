@@ -14,8 +14,17 @@ public class FirebaseService {
 
     public ResponseEntity<?> saveUserDetails(UserRequest userRequest){
         try {
+            User user = new User(
+                    userRequest.getUsername(),
+                    userRequest.getEmail() ,
+                    userRequest.getPassword(),
+                    userRequest.getFirstname(),
+                    userRequest.getLastname(),
+                    userRequest.getPhone(),
+                    "user"
+            );
             Firestore dbFirestore = FirestoreClient.getFirestore();
-            ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("users").document(userRequest.getEmail()).set(userRequest);
+            ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("users").document(user.getEmail()).set(user);
             return ResponseEntity.ok(collectionsApiFuture.get().getUpdateTime().toString());
 
         }catch(Exception e) {
