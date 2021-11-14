@@ -17,12 +17,16 @@ public class RanksSanitizers {
      * @return returns the string after bad characters/phrases removed.
      */
     public String MongoInput(String unsanitized){
-        Pattern pattern = Pattern.compile(
-                "(gte)|(gt)|(eq)|(lt)|(lte)|[$]|" +
-                        "(sleep)|[()]|[;]|[:]|[ ]|(ne)|" +
-                        "(where:)|('1 == 1')|[{}]|(password)"
-                , Pattern.CASE_INSENSITIVE);
-        return pattern.matcher(unsanitized).replaceAll("");
+        try {
+            Pattern pattern = Pattern.compile(
+                    "(gte)|(gt)|(eq)|(lt)|(lte)|[$]|" +
+                            "(sleep)|[()]|[;]|[:]|[ ]|(ne)|" +
+                            "(where:)|('1 == 1')|[{}]|(password)"
+                    , Pattern.CASE_INSENSITIVE);
+            return pattern.matcher(unsanitized).replaceAll("");
+        }catch(Exception e){
+            return e.toString();
+        }
     }
 
 
@@ -32,6 +36,8 @@ public class RanksSanitizers {
      * @return true if good and false if bad input
      */
     public boolean MongoInputCheck(String unsanitized){
+
+        try{
         Pattern pattern = Pattern.compile(
                 "(gte)|(gt)|(eq)|(lt)|(lte)|[$]|" +
                         "(sleep)|[()]|[;]|[:]|[ ]|(ne)|" +
@@ -39,6 +45,10 @@ public class RanksSanitizers {
                 , Pattern.CASE_INSENSITIVE);
         String sanitized = pattern.matcher(unsanitized).replaceAll("");
         return (unsanitized.equals(sanitized));
+        }catch(Exception e){
+            System.out.println(e.toString());
+            return false;
+        }
     }
 
 }

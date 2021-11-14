@@ -21,7 +21,7 @@ public class User {
 
     @MongoId
     @Persistent
-    private UUID id;
+    private String id;
 
     @NotBlank( message = "must contain username")
     @Size(max = 100)
@@ -54,7 +54,7 @@ public class User {
 
 
     public User(String username, String email, String password, String firstname, String lastname, String phone, String role) {
-        this.id = UUID.randomUUID();
+        this.id = UUID.randomUUID().toString();
         this.username = username;
         this.email = email;
         this.password = password;

@@ -38,7 +38,8 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.jsoup:jsoup:1.10.3'
     implementation 'com.google.firebase:firebase-admin:8.1.0'
-
+    implementation 'com.algolia:algoliasearch-core:3.10.0'
+    implementation 'com.algolia:algoliasearch-apache:3.10.0'
 }
 
 test {

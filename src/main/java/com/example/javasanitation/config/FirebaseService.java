@@ -2,15 +2,29 @@ package com.example.javasanitation.config;
 
 import com.example.javasanitation.models.User;
 import com.example.javasanitation.requestobjects.UserRequest;
+import com.example.javasanitation.responseobjects.UserResponse;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 @Service
 public class FirebaseService {
+
+    private final Firestore firestore;
+
+    public FirebaseService(Firestore firestore) {
+        this.firestore = firestore;
+    }
 
     public ResponseEntity<?> saveUserDetails(UserRequest userRequest){
         try {
@@ -23,15 +37,50 @@ public class FirebaseService {
                     userRequest.getPhone(),
                     "user"
             );
-            Firestore dbFirestore = FirestoreClient.getFirestore();
-            ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("users").document(user.getEmail()).set(user);
+            ApiFuture<WriteResult> collectionsApiFuture = firestore.collection("users").document(user.getEmail()).set(user);
             return ResponseEntity.ok(collectionsApiFuture.get().getUpdateTime().toString());
 
         }catch(Exception e) {
-
             e.printStackTrace();
         return ResponseEntity.badRequest().body(e.toString());
         }
     }
+
+    public Optional<UserResponse> getUserDetails(UserRequest userRequest){
+        try {
+            DocumentSnapshot document = firestore.collection("users").document(userRequest.getEmail()).get().get();
+            UserResponse userResponse = null;
+            if (document.exists()) {
+                userResponse = new UserResponse(
+                        document.getString("username"),
+                        document.getString("email"),
+                        document.getString("firstname"),
+                        document.getString("lastname"),
+                        document.getString("phone")
+                );
+                return Optional.of(userResponse);
+            } else {
+                return Optional.empty();
+            }
+        } catch(Exception e){
+            System.out.println(e);
+        }
+        return Optional.empty();
+    }
+
+
+
+    public String updatePatientDetails(User user) throws InterruptedException, ExecutionException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("user").document(user.getEmail()).set(user);
+        return collectionsApiFuture.get().getUpdateTime().toString();
+    }
+
+    public String deletePatient(User user) {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> writeResult = dbFirestore.collection("user").document(user.getEmail()).delete();
+        return "Document with Patient ID "+user.getUsername()+" has been deleted";
+    }
+
 
 }

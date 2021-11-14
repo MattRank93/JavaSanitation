@@ -64,10 +64,10 @@ public class UserRoute {
          return userController.register(userRequest);
     }
 
-    @PostMapping("/registerinfirebase")
-    public ResponseEntity<?> registeruserinfirebase(@RequestBody UserRequest userRequest) {
-        return firebaseService.saveUserDetails(userRequest);
-    }
+//    @PostMapping("/registerinfirebase")
+//    public ResponseEntity<?> registeruserinfirebase(@RequestBody UserRequest userRequest) {
+//        return firebaseService.saveUserDetails(userRequest);
+//    }
 
 
 
