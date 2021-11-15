@@ -20,7 +20,7 @@ public class CsvDataFirebaseRoute {
 
     private final FirebaseService firebaseService;
 
-    public CsvDataFirebaseRoute(UserController userController, FirebaseService firebaseService) {
+    public CsvDataFirebaseRoute( FirebaseService firebaseService) {
         this.firebaseService = firebaseService;
     }
 
@@ -29,6 +29,4 @@ public class CsvDataFirebaseRoute {
     public ResponseEntity<?> uploadDataFirebase(@RequestParam RunRequest runRequest) {
         return firebaseService.saveWorkoutData(runRequest);
     }
-
-
 }

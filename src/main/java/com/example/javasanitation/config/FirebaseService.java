@@ -60,7 +60,6 @@ public class FirebaseService {
         try {
 
             RunData runData = new RunData(
-                    runRequest.getId(),
                     runRequest.getUsername(),
                     runRequest.getDistance(),
                     runRequest.getTotalTime()

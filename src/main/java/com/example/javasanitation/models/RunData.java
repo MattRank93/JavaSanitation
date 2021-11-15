@@ -33,7 +33,7 @@ public class RunData {
 
 
 
-    public RunData(String username, Integer distance,  Integer totalTime, String phone, String role) {
+    public RunData(String username, Integer distance,  Integer totalTime) {
         this.id = UUID.randomUUID().toString();
         this.username = username;
         this.distance = distance;
