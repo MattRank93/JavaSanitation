@@ -1,6 +1,8 @@
 package com.example.javasanitation.config;
 
+import com.example.javasanitation.models.RunData;
 import com.example.javasanitation.models.User;
+import com.example.javasanitation.requestobjects.RunRequest;
 import com.example.javasanitation.requestobjects.UserRequest;
 import com.example.javasanitation.responseobjects.UserResponse;
 import com.google.api.core.ApiFuture;
@@ -8,7 +10,10 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +48,29 @@ public class FirebaseService {
         }catch(Exception e) {
             e.printStackTrace();
         return ResponseEntity.badRequest().body(e.toString());
+        }
+    }
+
+    /**
+     * Saves the workoutdata to the firestore
+     * @param runRequest
+     * @return
+     */
+    public ResponseEntity<?> saveWorkoutData(RunRequest runRequest){
+        try {
+
+            RunData runData = new RunData(
+                    runRequest.getId(),
+                    runRequest.getUsername(),
+                    runRequest.getDistance(),
+                    runRequest.getTotalTime()
+            );
+            ApiFuture<WriteResult> collectionsApiFuture = firestore.collection("app-upload-data").document(runData.getId()).set(runData);
+            return ResponseEntity.ok(collectionsApiFuture.get().getUpdateTime().toString());
+
+        }catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.toString());
         }
     }
 

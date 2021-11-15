@@ -23,12 +23,12 @@ public class UserRoute {
     }
 
 
-    @GetMapping("/getAllUsers")
+    @GetMapping("/get-all-users")
     public ResponseEntity<?> getAllUsers(){
         return userController.getAllUsers();
     }
 
-    @GetMapping("/byid")
+    @GetMapping("/by-id")
     public ResponseEntity<?> getOneUserById(@RequestBody UserRequest userRequest){
         try{
             User oneUser = userController.getOneUserById(userRequest);
@@ -39,7 +39,7 @@ public class UserRoute {
         }
     }
 
-    @GetMapping("/byname")
+    @GetMapping("/by-name")
     public ResponseEntity<?> getOneUserByName(@RequestBody UserRequest userRequest){
         try{
             User oneUser = userController.getOneUserByName(userRequest);
@@ -50,7 +50,7 @@ public class UserRoute {
         }
     }
 
-    @GetMapping("/testsani")
+    @GetMapping("/test-sani")
     public Object testSanitation(@RequestBody UserRequest userRequest){
         try{
             return userController.testSanitation(userRequest);
@@ -63,12 +63,5 @@ public class UserRoute {
     public ResponseEntity<?> registeruser(@RequestBody UserRequest userRequest) {
          return userController.register(userRequest);
     }
-
-//    @PostMapping("/registerinfirebase")
-//    public ResponseEntity<?> registeruserinfirebase(@RequestBody UserRequest userRequest) {
-//        return firebaseService.saveUserDetails(userRequest);
-//    }
-
-
 
 }

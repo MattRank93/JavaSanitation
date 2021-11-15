@@ -13,7 +13,7 @@ package com.example.javasanitation.routes;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/fireuser")
+@RequestMapping("/fire-user")
 public class UserFirebaseRoute {
 
     private final UserController userController;
