@@ -10,5 +10,5 @@ public class RunRequest {
     String id;
     String username;
     Integer distance;
-    Integer totalTime;
+    Integer totaltime;
 }

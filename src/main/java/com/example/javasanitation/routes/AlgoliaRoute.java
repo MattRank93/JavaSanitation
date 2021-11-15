@@ -23,6 +23,9 @@ public class AlgoliaRoute {
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadDataFirebase(@RequestParam RunRequest runRequest) {
+        System.out.println("____________________________________________________________________________________________");
+        System.out.println(runRequest);
+        System.out.println("____________________________________________________________________________________________");
         return firebaseService.saveWorkoutData(runRequest);
     }
 

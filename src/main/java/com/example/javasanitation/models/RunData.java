@@ -28,16 +28,16 @@ public class RunData {
 
     private Integer distance;
 
-    private Integer totalTime;
+    private Integer totaltime;
 
 
 
 
-    public RunData(String username, Integer distance,  Integer totalTime) {
+    public RunData(String username, Integer distance,  Integer totaltime) {
         this.id = UUID.randomUUID().toString();
         this.username = username;
         this.distance = distance;
-        this.totalTime = totalTime;
+        this.totaltime = totaltime;
 
     }
 

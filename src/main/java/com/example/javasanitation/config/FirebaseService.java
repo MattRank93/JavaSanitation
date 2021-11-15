@@ -62,9 +62,10 @@ public class FirebaseService {
             RunData runData = new RunData(
                     runRequest.getUsername(),
                     runRequest.getDistance(),
-                    runRequest.getTotalTime()
+                    runRequest.getTotaltime()
             );
-            ApiFuture<WriteResult> collectionsApiFuture = firestore.collection("app-upload-data").document(runData.getId()).set(runData);
+            System.out.println(runData);
+            ApiFuture<WriteResult> collectionsApiFuture = firestore.collection("app-upload-data").document(runData.getUsername()).set(runData);
             return ResponseEntity.ok(collectionsApiFuture.get().getUpdateTime().toString());
 
         }catch(Exception e) {

@@ -26,7 +26,7 @@ public class CsvDataFirebaseRoute {
 
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadDataFirebase(@RequestParam RunRequest runRequest) {
+    public ResponseEntity<?> uploadDataFirebase(@RequestBody RunRequest runRequest) {
         return firebaseService.saveWorkoutData(runRequest);
     }
 }
