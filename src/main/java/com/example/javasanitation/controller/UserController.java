@@ -4,6 +4,11 @@ import com.example.javasanitation.models.User;
 import com.example.javasanitation.models.UserRepository;
 import com.example.javasanitation.requestobjects.UserRequest;
 import com.example.javasanitation.responseobjects.SanitizerResponse;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +18,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 import java.util.UUID;
 
+
 @Controller
 public class UserController {
 
     private final UserRepository userRepo;
     private final RanksSanitizers rankSani;
-//    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
 
 
     @Autowired
@@ -27,8 +34,9 @@ public class UserController {
         this.rankSani = rankSani;
     }
 
-
-
+    MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+    MongoDatabase database = mongoClient.getDatabase("SSSS");
+    MongoCollection<Document> collection = database.getCollection("SpringUser");
 
     public ResponseEntity<?> getAllUsers(){
         try{
@@ -55,6 +63,27 @@ public class UserController {
     }
 
 
+    /**
+     *
+     * @param userRequest
+     * @return
+     */
+    public SanitizerResponse enterSanitation(@PathVariable("username") UserRequest userRequest){
+        boolean badPass = true;
+        try {
+            String username = userRequest.getUsername();
+            System.out.println("the unsanitized string: " + username);
+            if(!rankSani.MongoInputBool(username)){
+                badPass = false;
+                Document doc = collection.find().first();
+                System.out.println(doc);
+            }
+            return new SanitizerResponse(username, badPass);
+        } catch(Exception e){
+            return new SanitizerResponse(e.toString(),badPass);
+        }
+    }
+
     public SanitizerResponse testSanitation(@PathVariable("username") UserRequest userRequest){
         boolean badPass = false;
 
@@ -69,7 +98,6 @@ public class UserController {
 
         return new SanitizerResponse(sanitizedName,badPass);
     }
-
 
 
     public ResponseEntity<User> register(UserRequest userRequest){

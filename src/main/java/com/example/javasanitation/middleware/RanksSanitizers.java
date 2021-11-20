@@ -35,7 +35,7 @@ public class RanksSanitizers {
      * @param unsanitized the original input string
      * @return true if good and false if bad input
      */
-    public boolean MongoInputCheck(String unsanitized){
+    public boolean MongoInputBool(String unsanitized){
 
         try{
         Pattern pattern = Pattern.compile(

@@ -9,6 +9,4 @@ public class UserResponse {
     String firstname;
     String lastname;
     String phone;
-
-
 }

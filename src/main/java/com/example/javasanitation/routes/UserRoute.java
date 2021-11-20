@@ -53,11 +53,22 @@ public class UserRoute {
     @GetMapping("/test-sani")
     public Object testSanitation(@RequestBody UserRequest userRequest){
         try{
+//            if()
             return userController.testSanitation(userRequest);
         } catch(Exception e){
             return "Failed";
         }
     }
+
+    @GetMapping("/enter-sani")
+    public Object enterSanitation(@RequestBody UserRequest userRequest){
+        try{
+            return userController.enterSanitation(userRequest);
+        } catch(Exception e){
+            return "Failed";
+        }
+    }
+
 
     @PostMapping("/register")
     public ResponseEntity<?> registeruser(@RequestBody UserRequest userRequest) {
