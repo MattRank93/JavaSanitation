@@ -35,7 +35,7 @@ public class UserController {
     }
 
     MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-    MongoDatabase database = mongoClient.getDatabase("SSSS");
+    MongoDatabase database = mongoClient.getDatabase("javaSanitation");
     MongoCollection<Document> collection = database.getCollection("SpringUser");
 
     public ResponseEntity<?> getAllUsers(){
@@ -75,8 +75,10 @@ public class UserController {
             System.out.println("the unsanitized string: " + username);
             if(!rankSani.MongoInputBool(username)){
                 badPass = false;
-                Document doc = collection.find().first();
-                System.out.println(doc);
+                Document document = new Document();
+                document.append("username", username);
+                collection.insertOne(document);
+                System.out.println(document);
             }
             return new SanitizerResponse(username, badPass);
         } catch(Exception e){

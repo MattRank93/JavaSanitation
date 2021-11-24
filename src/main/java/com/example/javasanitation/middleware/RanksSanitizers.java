@@ -44,10 +44,10 @@ public class RanksSanitizers {
                         "(where:)|('1 == 1')|[{}]|(password)"
                 , Pattern.CASE_INSENSITIVE);
         String sanitized = pattern.matcher(unsanitized).replaceAll("");
-        return (unsanitized.equals(sanitized));
+        return (!unsanitized.equals(sanitized));
         }catch(Exception e){
-            System.out.println(e.toString());
-            return false;
+            System.out.println(e);
+            return true;
         }
     }
 
