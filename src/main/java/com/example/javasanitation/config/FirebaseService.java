@@ -1,8 +1,10 @@
 package com.example.javasanitation.config;
 
-import com.example.javasanitation.models.RunData;
+import com.example.javasanitation.models.AppUpload;
+import com.example.javasanitation.models.BreadCrumb;
 import com.example.javasanitation.models.User;
-import com.example.javasanitation.requestobjects.RunRequest;
+import com.example.javasanitation.requestobjects.AppUploadRequest;
+import com.example.javasanitation.requestobjects.BreadCrumbRequest;
 import com.example.javasanitation.requestobjects.UserRequest;
 import com.example.javasanitation.responseobjects.UserResponse;
 import com.google.api.core.ApiFuture;
@@ -10,17 +12,10 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 @Service
 public class FirebaseService {
@@ -51,21 +46,17 @@ public class FirebaseService {
         }
     }
 
-    /**
-     * Saves the workoutdata to the firestore
-     * @param runRequest
-     * @return
-     */
-    public ResponseEntity<?> saveWorkoutData(RunRequest runRequest){
+    public ResponseEntity<?> saveAppUploadData(AppUploadRequest uploadRequest){
         try {
-
-            RunData runData = new RunData(
-                    runRequest.getUsername(),
-                    runRequest.getDistance(),
-                    runRequest.getTotaltime()
+            AppUpload appUpload = new AppUpload(
+                    uploadRequest.getDeviceId(),
+                    uploadRequest.getFileId() ,
+                    uploadRequest.getFileSize(),
+                    uploadRequest.getFileType(),
+                    uploadRequest.getFirmwareVersion(),
+                    UUID.randomUUID().toString()
             );
-            System.out.println(runData);
-            ApiFuture<WriteResult> collectionsApiFuture = firestore.collection("app-upload-data").document(runData.getUsername()).set(runData);
+            ApiFuture<WriteResult> collectionsApiFuture = firestore.collection("app-upload-data").document().set(appUpload);
             return ResponseEntity.ok(collectionsApiFuture.get().getUpdateTime().toString());
 
         }catch(Exception e) {
@@ -73,6 +64,30 @@ public class FirebaseService {
             return ResponseEntity.badRequest().body(e.toString());
         }
     }
+
+//    /**
+//     * Saves the workoutdata to the firestore
+//     * @param runRequest
+//     * @return
+//     */
+//    public ResponseEntity<?> saveWorkoutData(BreadCrumbRequest runRequest){
+//        try {
+//
+//            BreadCrumb runData = new BreadCrumb(
+//                    runRequest.getLat(),
+//                    runRequest.getLongi(),
+//                    runRequest.getHeight(),
+//                    runRequest.getGSpeed()
+//            );
+//            System.out.println(runData);
+//            ApiFuture<WriteResult> collectionsApiFuture = firestore.collection("test-firebase-array-upload").document(runData.g).set(runData);
+//            return ResponseEntity.ok(collectionsApiFuture.get().getUpdateTime().toString());
+//
+//        }catch(Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.badRequest().body(e.toString());
+//        }
+//    }
 
     public Optional<UserResponse> getUserDetails(UserRequest userRequest){
         try {

@@ -3,6 +3,7 @@ package com.example.javasanitation.routes;
         import com.example.javasanitation.config.FirebaseService;
         import com.example.javasanitation.controller.UserController;
         import com.example.javasanitation.models.User;
+        import com.example.javasanitation.requestobjects.AppUploadRequest;
         import com.example.javasanitation.requestobjects.UserRequest;
         import com.example.javasanitation.responseobjects.UserResponse;
         import org.springframework.http.ResponseEntity;
@@ -29,6 +30,11 @@ public class UserFirebaseRoute {
     @PostMapping("/register")
     public ResponseEntity<?> registeruserinfirebase(@RequestBody UserRequest userRequest) {
         return firebaseService.saveUserDetails(userRequest);
+    }
+
+    @PostMapping("/app-upload-data")
+    public ResponseEntity<?> uploadAppAUploadData(@RequestBody AppUploadRequest uploadRequest) {
+        return firebaseService.saveAppUploadData(uploadRequest);
     }
 
 

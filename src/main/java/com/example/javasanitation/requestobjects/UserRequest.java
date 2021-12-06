@@ -3,6 +3,7 @@ package com.example.javasanitation.requestobjects;
 
 import lombok.Value;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Value
@@ -14,5 +15,6 @@ public class UserRequest {
     String lastname;
     String phone;
     UUID id;
+    ArrayList<BreadCrumbRequest> list;
 
 }
