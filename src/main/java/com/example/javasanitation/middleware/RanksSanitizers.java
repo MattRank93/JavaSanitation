@@ -30,6 +30,13 @@ public class RanksSanitizers {
     }
 
 
+
+    
+
+
+
+
+
     /**
      * Uses the same logic as the previous method but returns a boolean value if a simple check is needed
      * @param unsanitized the original input string

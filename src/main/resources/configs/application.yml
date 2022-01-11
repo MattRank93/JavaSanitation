@@ -1,0 +1,22 @@
+#logging
+spring:
+  application:
+    name: demo1
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: SSSS
+  profiles:
+    active: prod
+
+
+server:
+  port: 7886
+
+logging:
+  level:
+    org:
+      springframework: debug
+  file:
+    name: ${java.io.tmpdir}/${spring.application.name}.log
